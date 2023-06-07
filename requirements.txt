@@ -1,3 +1,6 @@
 browserstack-local >= 1.2.3
-selenium
+selenium==3.14.0
+pytest==6.2.5
+pytest-selenium
+requests
 browserstack-sdk
