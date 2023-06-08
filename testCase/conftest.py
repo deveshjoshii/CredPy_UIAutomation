@@ -53,6 +53,10 @@ def setup(request):
             driver.get("https://qa.credello.com/")
             driver.maximize_window()
             driver.implicitly_wait(15)
+        elif endpoint=="prod":
+            driver.get("https://www.credello.com/")
+            driver.maximize_window()
+            driver.implicitly_wait(15)
         request.cls.driver = driver
     elif browser_name=="fire_fox":
         optionF = webdriver.FirefoxOptions()
