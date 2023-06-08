@@ -41,8 +41,8 @@ def setup(request):
         optionC.binary_location=r'C:/Program Files/Google/Chrome/Application/chrome.exe'
         # driver = webdriver.Chrome(service=service_obj,options=optionC)
         driver = webdriver.Chrome('assets\\chromedriver.exe')
-        if endpoint=="uat":
-            driver.get("https://uat.credello.com/")
+        if endpoint=="prod":
+            driver.get("https://www.credello.com/")
             driver.maximize_window()
             driver.implicitly_wait(15)
         elif endpoint=="dev":
@@ -53,7 +53,11 @@ def setup(request):
             driver.get("https://qa.credello.com/")
             driver.maximize_window()
             driver.implicitly_wait(15)
-        elif endpoint=="prod":
+        elif endpoint=="uat":
+            driver.get("https://uat.credello.com/")
+            driver.maximize_window()
+            driver.implicitly_wait(15)
+        else:
             driver.get("https://www.credello.com/")
             driver.maximize_window()
             driver.implicitly_wait(15)
@@ -63,8 +67,8 @@ def setup(request):
         service_obj2 = Service("assets\\geckodriver.exe")
         optionF.binary_location = r'C:/Users/devesh.joshi/AppData/Local/Mozilla Firefox/firefox.exe'
         driver = webdriver.Firefox(service=service_obj2, options=optionF)
-        if endpoint=="uat":
-            driver.get("https://uat.credello.com/")
+        if endpoint=="prod":
+            driver.get("https://www.credello.com/")
             driver.maximize_window()
             driver.implicitly_wait(15)
         elif endpoint=="dev":
@@ -73,6 +77,14 @@ def setup(request):
             driver.implicitly_wait(15)
         elif endpoint=="qa":
             driver.get("https://qa.credello.com/")
+            driver.maximize_window()
+            driver.implicitly_wait(15)
+        elif endpoint=="uat":
+            driver.get("https://uat.credello.com/")
+            driver.maximize_window()
+            driver.implicitly_wait(15)
+        else:
+            driver.get("https://www.credello.com/")
             driver.maximize_window()
             driver.implicitly_wait(15)
         request.cls.driver = driver
