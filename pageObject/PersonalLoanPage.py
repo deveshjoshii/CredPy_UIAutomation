@@ -1,6 +1,6 @@
 import time
 
-from selenium.common import StaleElementReferenceException
+# from selenium.common import StaleElementReferenceException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
@@ -78,12 +78,7 @@ class PersonalLoan:
 
 
 
-    # Landing page
 
-    # def initializeBrowser(self,endpoint):
-    #     # self.driver=webdriver.Chrome('assets\\chromedriver.exe')
-    #     self.driver.get(endpoint)
-    #     self.driver.maximize_window()
 
     def user_click_on_next_button(self):
         self.driver.find_element(*PersonalLoan.cpl_loan_purpose_next_button).click()
@@ -140,18 +135,8 @@ class PersonalLoan:
 
 
     def user_clicks_on_next_on_loan_amount_page(self):
-        # self.driver.find_element(*PersonalLoan.cpl_loan_details_next_button).click()
-        ele = WebDriverWait(self.driver, 15).until(
-        expected_conditions.presence_of_element_located((PersonalLoan.cpl_loan_details_next_button)))
-        try:
-                # Perform actions on the element
-            ele.click()
-        except StaleElementReferenceException:
-                # If the element reference becomes stale, locate it again
-                self.driver.refresh()
-                element = WebDriverWait(self.driver, 10).until(
-                    expected_conditions.presence_of_element_located((PersonalLoan.cpl_loan_details_next_button)))
-                element.click()
+
+        self.driver.find_element(*PersonalLoan.cpl_loan_details_next_button).click()
 
 
 
