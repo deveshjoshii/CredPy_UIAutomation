@@ -32,15 +32,17 @@ class Test_CPL(Base):
         cpl_page_obj.user_clicks_on_next_on_loan_amount_page()
         cpl_page_obj.user_assert_error_on_loan_details_page()
         cpl_page_obj.user_enter_loan_amount(getData["loanAmount"])
+
+
+        # try:
         cpl_page_obj.user_open_term_drop_down()
-        time.sleep(3)
-        try:
-            cpl_page_obj.user_selects_loan_term(getData["loanTerm"])
-        except Exception as e:
-            print(e)
-        time.sleep(4)
-        cpl_page_obj.user_clicks_on_next2_on_loan_amount_page()
-        # cpl_page_obj.user_clicks_on_next_on_loan_amount_page()
+        cpl_page_obj.user_selects_loan_term(getData["loanTerm"])
+        # driver.refresh()
+        # time.sleep(5)
+
+
+        cpl_page_obj.user_clicks_on_next_on_loan_amount_page()
+
 
 
         cpl_page_obj.user_assert_progress_bar(getData["p2"])
