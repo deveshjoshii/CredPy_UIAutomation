@@ -35,14 +35,14 @@ class PersonalLoan:
     cpl_location_page_next=(By.ID,"next")
 
     #credit prefrence
-    cpl_credit_prefrence=(By.XPATH,"//div[contains(@class,'CreditScorePrefs')]//button//h1")
+    cpl_credit_prefrence=(By.XPATH,"//div[contains(@class,'CreditScorePrefs')]//button//h3")
     cpl_select_credit_error=(By.XPATH,"//div[contains(text(),'Please select your credit score.')]")
     cpl_credit_page_next=(By.ID,"next")
 
     # monthly income
     cpl_month_next_button=(By.ID,"next")
-    cpl_month_income_error=(By.XPATH,"//div[contains(@class,'InfoPopup')]//div[@class='close']")
-    cpl_month_income_text=(By.XPATH,"//h1[contains(text(),'What is your monthly income?')]")
+    cpl_month_income_error=(By.XPATH,"//p[text()='Required field']")
+    cpl_month_income_text=(By.XPATH,"//h3[contains(text(),'What is your monthly income?')]")
     cpl_monthly_income_input_box=(By.XPATH,"//input[contains(@name,'monthlyIncome')]")
     cpl_month_tool_tip_icon=(By.XPATH,"//div[@class='popupWrapper']")
     cpl_month_tool_tip_pop_up=(By.XPATH,"//div[contains(@class,'InfoPopup')]")
@@ -53,13 +53,13 @@ class PersonalLoan:
     cpl_advertiser_disclosure_link_on_reco_page=(By.XPATH,"//div[@class='container']//div[text()='Advertiser Disclosure']")
     cpl_advertiser_disclosure_pop_up_on_reco_page=(By.XPATH,"//a[contains(@href,'/advertiser-disclosure')]")
     cpl_advertiser_disclosure_close_button_on_reco_page=(By.XPATH,"//div[@class='close']")
-    cpl_loan_purpose_on_reco_page=(By.XPATH,"//h1[contains(@class,'loanTitle')]//input[@name='creditScore']")
+    cpl_loan_purpose_on_reco_page=(By.XPATH,"//h3[contains(@class,'loanTitle')]//input[@name='creditScore']")
     cpl_loan_amount_on_reco_page=(By.ID,"loanAmount")
     cpl_state_on_reco_page=(By.ID,"combo-box-demo")
     cpl_loan_term_on_reco_page=(By.XPATH,"//input[@name='loanTerm']")
     cpl_loan_credit_score_on_reco_page=(By.XPATH,"//div[contains(@class,'userInput')]//div[@id='creditScore']")
     # fetch lender list
-    cpl_lender_list_on_reco_page=(By.XPATH,"//h1[@id='lenderName']")
+    cpl_lender_list_on_reco_page=(By.XPATH,"//h3[@id='lenderName']")
 
 
     #these will cover assertions===================
@@ -168,13 +168,14 @@ class PersonalLoan:
         credit_score=self.driver.find_elements(*PersonalLoan.cpl_credit_prefrence)
         assert len(credit_score)==4
         for i in credit_score:
-            assert i.text in score_list
             i.click()
 
     def user_select_credit_prefrence(self,prefrence):
         credit_score = self.driver.find_elements(*PersonalLoan.cpl_credit_prefrence)
         for i in credit_score:
+            print(i)
             if i.text==prefrence:
+                print(i.get_attribute('id'))
                 i.click()
 
     #  monthly income

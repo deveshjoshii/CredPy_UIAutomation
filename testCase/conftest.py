@@ -38,9 +38,12 @@ def setup(request):
     if browser_name=="chrome":
         optionC = webdriver.ChromeOptions()
         # service_obj = Service("assets\\chromedriver.exe")
+        optionC.add_argument('--ignore-certificate-errors')
+        optionC.add_argument('--ignore-ssl-errors')
         optionC.binary_location=r'C:/Program Files/Google/Chrome/Application/chrome.exe'
-        # driver = webdriver.Chrome(service=service_obj,options=optionC)
-        driver = webdriver.Chrome('assets\\chromedriver.exe')
+        # driver = webdriver.Chrome(service=service_obj)
+
+        driver = webdriver.Chrome(executable_path='assets\\chromedriver.exe',options=optionC)
         if endpoint=="prod":
             driver.get("https://www.credello.com/")
             driver.maximize_window()
