@@ -10,13 +10,22 @@ from selenium import webdriver
 
 class Test_CPL(Base):
 
+
     def test_cpl(self,getData):
+
         driver=self.driver
+        # log=self.getLogger()
+
+
         driver.implicitly_wait(15)
-        cpl_page_obj=PersonalLoan(self.driver)
+        # changed self.driver to driver
+        cpl_page_obj=PersonalLoan(driver)
+        # removed self.driver
         Base.cookie_consent(self.driver)
 
         cpl_page_obj.user_clicks_on_cpl_homepage()
+        # log.info()
+
         # time.sleep(4)
 
         cpl_page_obj.user_click_on_next_button()
@@ -32,6 +41,7 @@ class Test_CPL(Base):
         cpl_page_obj.user_clicks_on_next_on_loan_amount_page()
         cpl_page_obj.user_assert_error_on_loan_details_page()
         cpl_page_obj.user_enter_loan_amount(getData["loanAmount"])
+
 
 
         # try:
@@ -88,6 +98,8 @@ class Test_CPL(Base):
         cpl_page_obj.user_assert_loan_term(getData["loanTerm"])
         cpl_page_obj.user_assert_credit_score(getData["credit_score"])
         cpl_page_obj.user_assert_lender_list(getData["lender_list"],getData["lender_count"])
+
+
 
 
 
