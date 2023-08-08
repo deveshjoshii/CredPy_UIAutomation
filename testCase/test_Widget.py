@@ -1,3 +1,4 @@
+import json
 import time
 
 import pytest
@@ -9,8 +10,18 @@ from utilities.base import Base
 
 class Test_Widget(Base):
 
+    @pytest.mark.smoke
     def test_widget(self,getdata):
         log=self.getLogger()
+        driver=self.driver
+        executor_object = {
+            'action': 'setSessionName',
+            'arguments': {
+                'name': 'Test_Widget'
+            }
+        }
+        browserstack_executor = 'browserstack_executor: {}'.format(json.dumps(executor_object))
+        driver.execute_script(browserstack_executor)
         widget_obj=Widget_Page_Object(self.driver)
         Base.cookie_consent(self.driver)
         widget_obj.user_validate_all_the_urls_and_validate_default_values(getdata["url"])

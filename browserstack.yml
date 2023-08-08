@@ -13,13 +13,15 @@ platforms:
 #    osVersion: Big Sur
 #    browserName: Safari
 #    browserVersion: 14.1
-
+parallelsPerPlatform: 1
 browserstackLocal: true
 buildName: Credello-Regression
 debug: true
 networkLogs: true
 consoleLogs: info
 browserstack.debug : true
+browserstack.geoLocation : IN
+
 
 
 
