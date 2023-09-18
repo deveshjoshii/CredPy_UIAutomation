@@ -16,6 +16,8 @@ platforms:
 parallelsPerPlatform: 1
 browserstackLocal: true
 buildName: Credello-Regression
+buildIdentifier: '#${BUILD_NUMBER}'
+projectName: Credello
 debug: true
 networkLogs: true
 consoleLogs: info
