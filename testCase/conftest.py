@@ -3,15 +3,21 @@ import json
 import pytest
 import requests
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
-
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 # from selenium.webdriver.firefox.options import Options
 
 driver = None
+#  varibales to store exception info
+test = None
+status_tag = None
+line = None
+duration = None
+exception = None
 
 def pytest_addoption(parser):
     """this function define config options and helps parameterize them
@@ -26,11 +32,7 @@ def pytest_addoption(parser):
     "--end_point", action = "store", default = "https://www.credello.com/"
     )
 
-
-
-
-
-
+#  setup starts here
 @pytest.fixture()
 def setup(request):
     """tear down scripts,this function also selects browser on the basis of user input
@@ -43,14 +45,16 @@ def setup(request):
     browser_name = request.config.getoption("browser_name")
     endpoint=request.config.getoption("end_point")
     if browser_name=="chrome":
-        optionC = webdriver.ChromeOptions()
-        # service_obj = Service("assets\\chromedriver.exe")
-        optionC.add_argument('--ignore-certificate-errors')
-        optionC.add_argument('--ignore-ssl-errors')
-        optionC.binary_location=r'C:/Program Files/Google/Chrome/Application/chrome.exe'
-        # driver = webdriver.Chrome(service=service_obj)
-
-        driver = webdriver.Chrome(executable_path='assets\\chromedriver.exe',options=optionC)
+        
+        # service = ChromeService(executable_path="C:\\Users\\devesh.joshi\\PycharmProjects\\UIFunctional\\assets\\chromedriver.exe")
+        service = ChromeService(executable_path=ChromeDriverManager().install())
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--no-sandbox')
+        # chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument("--disable-setuid-sandbox")
+        driver=webdriver.Chrome(service=service,options=chrome_options)
+        
         if endpoint=="prod":
             driver.get("https://www.credello.com/")
             driver.maximize_window()
@@ -107,7 +111,7 @@ def setup(request):
     # driver.close()
     driver.quit()
 
-
+# Embed screen shots in html report
 @pytest.mark.hookwrapper
 def pytest_runtest_makereport(item):
     """
@@ -130,24 +134,39 @@ def pytest_runtest_makereport(item):
                 extra.append(pytest_html.extras.html(html))
         report.extra = extra
 
-
+# capture screenshots
 def _capture_screenshot(name):
         driver.get_screenshot_as_file(name)
 
 
+# track the test execution, stores all the exceptions
 @pytest.hookimpl(hookwrapper=True, tryfirst=True)
 def pytest_runtest_makereport(item, call):
+    global test, status_tag, line, duration, exception
     outcome = yield
     test_result = outcome.get_result()
     if test_result.when == "call":
-       test_result
+       (filename,line,name)= item.location
+       test=item.nodeid
+       status_tag=test_result.outcome
+       line = line
+       duration = call.duration
+       exception = call.excinfo
+       print(test_result.outcome)
        print("This is result", test_result.outcome)
+       print(f"test {test}")
+       print(f"status {status_tag}")
+       print(f"line {line}")
+       print(f"duration {duration}")
+       print(f"exception {exception}")
+       exe=str(exception)
+
        if test_result.outcome=='failed':
             executor_object = {
                 'action': 'setSessionStatus',
                 'arguments': {
                     'status': "failed",
-                    'reason': "there are exceptions in your test,please check logs"
+                    'reason': exe
                 }
             }
             browserstack_executor = 'browserstack_executor: {}'.format(json.dumps(executor_object))
@@ -157,11 +176,13 @@ def pytest_runtest_makereport(item, call):
                 'action': 'setSessionStatus',
                 'arguments': {
                     'status': "passed",
-                    'reason': "No Exception found"
+                    'reason': exe
                 }
             }
             browserstack_executor = 'browserstack_executor: {}'.format(json.dumps(executor_object))
             driver.execute_script(browserstack_executor)
+
+
 
 
 
