@@ -46,14 +46,14 @@ def setup(request):
     endpoint=request.config.getoption("end_point")
     if browser_name=="chrome":
         
-        # service = ChromeService(executable_path="C:\\Users\\devesh.joshi\\PycharmProjects\\UIFunctional\\assets\\chromedriver.exe")
-        service = ChromeService(executable_path=ChromeDriverManager().install())
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--no-sandbox')
+        # service = ChromeService(executable_path=ChromeDriverManager().install())
+        # --chrome_options = webdriver.ChromeOptions()
+        # --chrome_options.add_argument('--no-sandbox')
         # chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument("--disable-setuid-sandbox")
-        driver=webdriver.Chrome(service=service,options=chrome_options)
+        # --chrome_options.add_argument('--disable-dev-shm-usage')
+        # --chrome_options.add_argument("--disable-setuid-sandbox")
+        driver=webdriver.Chrome()
+        # service=service,options=chrome_options
         
         if endpoint=="prod":
             driver.get("https://www.credello.com/")
@@ -75,9 +75,10 @@ def setup(request):
             driver.get("https://www.credello.com/")
             driver.maximize_window()
             driver.implicitly_wait(15)
+        request.cls.driver = driver
         session=driver.session_id
         print(session)
-        request.cls.driver = driver
+        
 
     elif browser_name=="fire_fox":
         optionF = webdriver.FirefoxOptions()
@@ -112,6 +113,7 @@ def setup(request):
     driver.quit()
 
 # Embed screen shots in html report
+
 @pytest.mark.hookwrapper
 def pytest_runtest_makereport(item):
     """
@@ -152,13 +154,13 @@ def pytest_runtest_makereport(item, call):
        line = line
        duration = call.duration
        exception = call.excinfo
-       print(test_result.outcome)
-       print("This is result", test_result.outcome)
-       print(f"test {test}")
-       print(f"status {status_tag}")
-       print(f"line {line}")
-       print(f"duration {duration}")
-       print(f"exception {exception}")
+    #    print(test_result.outcome)
+    #    print("This is result", test_result.outcome)
+    #    print(f"test {test}")
+    #    print(f"status {status_tag}")
+    #    print(f"line {line}")
+    #    print(f"duration {duration}")
+    #    print(f"exception {exception}")
        exe=str(exception)
 
        if test_result.outcome=='failed':
