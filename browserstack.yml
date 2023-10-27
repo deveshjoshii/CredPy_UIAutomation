@@ -15,7 +15,7 @@ platforms:
 #    browserVersion: 14.1
 parallelsPerPlatform: 1
 browserstackLocal: true
-buildName: Credello
+buildName: 'Credello_Desktop_UI'
 buildIdentifier: '#${BUILD_NUMBER}'
 projectName: Credello
 sessionName: Regression
