@@ -1,3 +1,4 @@
+import json
 import time
 
 import pytest
@@ -9,6 +10,14 @@ class Test_DCPR(Base):
     
     def test_dcpr_flow(self):
         driver=self.driver
+        executor_object = {
+            'action': 'setSessionName',
+            'arguments': {
+                'name': 'Test_DCPR'
+            }
+        }
+        browserstack_executor = 'browserstack_executor: {}'.format(json.dumps(executor_object))
+        driver.execute_script(browserstack_executor)
         
         # removed self.driver
         Base.cookie_consent(driver)

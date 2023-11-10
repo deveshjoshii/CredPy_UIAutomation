@@ -3,7 +3,7 @@ import time
 # from selenium.common import StaleElementReferenceException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -60,7 +60,7 @@ class PersonalLoan:
     cpl_loan_credit_score_on_reco_page=(By.XPATH,"//div[contains(@class,'userInput')]//div[@id='creditScore']")
     # fetch lender list
     cpl_lender_list_on_reco_page=(By.XPATH,"//h3[@id='lenderName']")
-
+    cpl_lender_list_container=(By.XPATH,"//div[contains(@class,'Recommendations__StyledTileContainer')]")
 
     #these will cover assertions===================
 
@@ -81,7 +81,9 @@ class PersonalLoan:
 
 
     def user_click_on_next_button(self):
-        self.driver.find_element(*PersonalLoan.cpl_loan_purpose_next_button).click()
+        
+        # ele=self.driver.find_element(*PersonalLoan.cpl_loan_purpose_next_button)
+        WebDriverWait(self.driver, 20).until(EC.presence_of_element_located(PersonalLoan.cpl_loan_purpose_next_button)).click()  
 
     def user_assert_error_message(self):
         self.driver.find_element(*PersonalLoan.cpl_error_on_loan_purpose).is_displayed()
@@ -241,26 +243,23 @@ class PersonalLoan:
         assert(textScore[0]==score)
 
     def user_assert_lender_list(self,expected_list,lender_count):
+
         lender_list=self.driver.find_elements(*PersonalLoan.cpl_lender_list_on_reco_page)
         len_lst=[]
         for i in lender_list:
             len_lst.append(i.text)
         print(len_lst)
         print(len(len_lst),lender_count)
+        # try:
         assert len(len_lst)==lender_count
+        # except Exception as e:
+        #     raise Exception(str(e))
         for i in len_lst:
             if i in expected_list:
                 assert True
 
-
-
-
-
-
-
-
-
-
+    def user_check_lender_list_container(self):
+        assert self.driver.find_element(*PersonalLoan.cpl_lender_list_container).is_displayed()
 
 
 
