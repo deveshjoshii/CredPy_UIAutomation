@@ -8,6 +8,7 @@ from utilities.base import Base
 
 class Test_DCPR(Base):
     
+    @pytest.mark.smoke
     def test_dcpr_flow(self):
         driver=self.driver
         executor_object = {
