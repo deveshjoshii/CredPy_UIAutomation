@@ -15,15 +15,15 @@ platforms:
 #    browserVersion: 14.1
 parallelsPerPlatform: 1
 browserstackLocal: true
-buildName: 'Credello_Desktop_UI'
-buildIdentifier: '#${BUILD_NUMBER}'
+buildName: Credello_Desktop_UI
+buildIdentifier: ${BUILD_NUMBER}
 projectName: Credello
 sessionName: Regression
 debug: true
 networkLogs: true
 consoleLogs: info
 browserstack.debug : true
-browserstack.geoLocation : IN
+# browserstack.geoLocation : IN
 
 
 
