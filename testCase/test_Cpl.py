@@ -14,6 +14,7 @@ class Test_CPL(Base):
 
     @pytest.mark.smoke
     def test_cpl(self,getData):
+        print(getData)
 
         driver=self.driver
         executor_object = {
@@ -50,6 +51,7 @@ class Test_CPL(Base):
         cpl_page_obj.user_fetch_loan_purpose()
         log.info("user selects loan purpose")
         cpl_page_obj.user_selects_loan_purpose(getData["purpose"])
+
         cpl_page_obj.user_click_on_next_button()
         # time.sleep(10)
 
@@ -118,7 +120,9 @@ class Test_CPL(Base):
         cpl_page_obj.user_assert_loan_term(getData["loanTerm"])
         cpl_page_obj.user_assert_credit_score(getData["credit_score"])
         log.info("user verify lender count and list")
-        cpl_page_obj.user_assert_lender_list(getData["lender_list"],getData["lender_count"])
+        # commenting as we are validating lender in api
+        # cpl_page_obj.user_assert_lender_list(getData["lender_list"],getData["lender_count"])
+        cpl_page_obj.user_check_lender_list_container()
 
 
 
